@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  Remove a LinkedIn Connection with a single click.
 // @author       @imranhsayed @m-muhsin
-// @match        https://github.com/imranhsayed/remove-linkedin-connection/blob/master/index.js
+// @match        https://www.linkedin.com/mynetwork/invite-connect/connections/
 // @grant        none
 // ==/UserScript==
 
@@ -33,18 +33,18 @@ window.onload = function() {
 		setTimeout( function (  ) {
 
 			// 2. SECOND TARGET ELEMENT CLICK
-			const secondTargetEl = parentEl.querySelector( '.dropdown-options--expanded li button' );
+			const secondTargetEl = parentEl.querySelector( 'li > div > button' );
 			secondTargetEl.click();
 
 			setTimeout( function (  ) {
 
 				// 3. THIRD TARGET ELEMENT CLICK
-				const thirdTargetElContainer = document.getElementById( 'artdeco-modal-outlet' );
+				const thirdTargetElContainer = document.querySelector('.artdeco-modal');
 				const thirdTargetEl = thirdTargetElContainer.querySelector( '.artdeco-button--primary.ember-view' );
 				thirdTargetEl.click();
 			},200 )
 
-		}, 100 );
+		}, 300 );
 	};
 
 	// Loop through each item in the conatiner and add our custom button
@@ -53,7 +53,7 @@ window.onload = function() {
 		item.appendChild( createRemoveBtn() );
 
 	});
-  
+
   function createRemoveBtn() {
     const removeConnectionBtn = document.createElement( 'button' );
     removeConnectionBtn.textContent = 'Remove';
@@ -74,7 +74,7 @@ window.onload = function() {
   // Callback function to execute when mutations are observed
   var callback = function(mutationsList, observer) {
     for(var mutation of mutationsList) {
-      if (mutation.type == 'childList' && mutation.addedNodes[0].localName === "li" ) {
+      if (mutation.type == 'childList' && mutation.addedNodes[0].localName === "li" && mutation.addedNodes && mutation.addedNodes[0] ) {
         const container = mutation.addedNodes[0].querySelector( '.mn-connection-card__dropdown' );
         container.appendChild( createRemoveBtn() );
       }
